@@ -1,0 +1,27 @@
+name: Build DCM4CHE Command Line Tools
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-dcm4che:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout dcm4che
+      uses: actions/checkout@v3
+
+    - name: Set up JDK
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '11'
+
+    - name: Build with Maven
+      run: mvn clean package -DskipTests
+
+    - name: Upload CLI Tools
+      uses: actions/upload-artifact@v3
+      with:
+        name: dcm4che-tools
+        path: dcm4che-tool/target/*
